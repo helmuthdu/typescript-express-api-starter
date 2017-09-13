@@ -1,0 +1,13 @@
+[
+  {
+    "script": "index.js",
+    "name": "api-prod",
+    "exec_mode": "cluster",
+    "node_args": "--harmony",
+    "instances": 0,
+    "env": {
+      "NODE_ENV": "production",
+      "PORT": 5000
+    }
+  }
+]

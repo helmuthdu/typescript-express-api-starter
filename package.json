@@ -1,0 +1,86 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "a seed project for creating http service using express written in typescript",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest --forceExit",
+    "start": "npm run server:dev",
+    "server": "npm run server:dev",
+    "server:dev": "nodemon --inspect --exec ts-node src/index.ts",
+    "server:prod": "cross-env NODE_ENV=production nodemon --exec ts-node src/index.ts",
+    "build": "npm run build:dev",
+    "build:dev": "webpack --config ./webpack.config.js --progress --profile --color --display-error-details --display-cached && npm run copy-files",
+    "build:prod": "cross-env NODE_ENV=production webpack --config ./webpack.config.js  --progress --profile --color --display-error-details --display-cached --bail && npm run copy-files",
+    "copy-files": "node copyFiles.js",
+    "clean": "npm cache clear && rimraf -- dist"
+  },
+  "keywords": [],
+  "author": "Helmuth Saatkamp",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.18.1",
+    "compression": "^1.7.0",
+    "connect-redis": "^3.3.0",
+    "cookie-parser": "^1.4.3",
+    "errorhandler": "^1.5.0",
+    "express": "^4.15.4",
+    "express-session": "^1.15.5",
+    "lodash": "^4.17.4",
+    "method-override": "^2.3.9",
+    "morgan": "^1.8.2",
+    "mssql": "^4.0.4",
+    "rxjs": "^5.4.3",
+    "wicket": "^1.3.2",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "@reactivex/rxjs": "^5.4.3",
+    "@types/bluebird": "^3.5.10",
+    "@types/body-parser": "1.16.5",
+    "@types/compression": "0.0.34",
+    "@types/connect-redis": "0.0.6",
+    "@types/cookie-parser": "^1.4.1",
+    "@types/errorhandler": "0.0.31",
+    "@types/express-session": "1.15.3",
+    "@types/lodash": "^4.14.74",
+    "@types/method-override": "0.0.30",
+    "@types/morgan": "^1.7.32",
+    "@types/mssql": "^4.0.6",
+    "@types/node": "^8.0.28",
+    "@types/supertest": "^2.0.3",
+    "@types/webpack": "^3.0.10",
+    "@types/winston": "^2.3.5",
+    "awesome-typescript-loader": "^3.2.3",
+    "cross-env": "^5.0.5",
+    "jest": "^21.0.2",
+    "nodemon": "^1.12.0",
+    "shelljs": "^0.7.8",
+    "supertest": "^3.0.0",
+    "ts-jest": "^21.0.0",
+    "ts-node": "^3.3.0",
+    "tslint": "^5.7.0",
+    "tslint-loader": "^3.5.3",
+    "typescript": "2.5.2",
+    "webpack": "^3.5.6"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.json"
+      }
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts)$": "./node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": [
+      "**/src/**/*.spec.(ts|js)"
+    ],
+    "testEnvironment": "node"
+  }
+}
