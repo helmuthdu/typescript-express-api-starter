@@ -39,13 +39,13 @@ export class PingRoute extends BaseRoute {
     }
 
     /**
-     * @class AreasRoute
-     * @method index
+     * @class PingRoute
+     * @method get
      * @param req {Request} The express Request object.
      * @param res {Response} The express Response object.
      * @param next {NextFunction} Execute the next method.
      */
-    private get (req: Request, res: Response, next: NextFunction) {
+    private async get (req: Request, res: Response, next: NextFunction) {
         res.json('pong');
         next();
     }

@@ -1,5 +1,6 @@
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
+import * as cors from 'cors';
 import * as express from 'express';
 import * as morgan from 'morgan';
 import * as path from 'path';
@@ -86,6 +87,7 @@ export class Server {
     }));
 
     // mount override?
+    this.app.use(cors());
     this.app.use(compression());
     this.app.use(methodOverride());
 

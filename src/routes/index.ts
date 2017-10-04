@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { logger } from '../services';
 import { PingRoute } from './ping/ping.route';
+import { UploadRoute } from './upload/upload.route';
 import { BaseRoute } from './route';
 
 /**
@@ -45,6 +46,7 @@ export class ApiRoutes extends BaseRoute {
         // add index page route
         this.router.get('/', this.get);
         this.router.use(PingRoute.path, PingRoute.router);
+        this.router.use(UploadRoute.path, UploadRoute.router);
     }
 
     /**
@@ -54,7 +56,7 @@ export class ApiRoutes extends BaseRoute {
      * @param res {Response} The express Response object.
      * @param next {NextFunction} Execute the next method.
      */
-    private get (req: Request, res: Response, next: NextFunction) {
+    private async get (req: Request, res: Response, next: NextFunction) {
         res.status(200).json({ online: true });
     }
 }
