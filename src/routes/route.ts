@@ -1,8 +1,3 @@
-/**
- * Constructor
- *
- * @class BaseRoute
- */
 import { Router } from 'express';
 import { ConnectionPool } from 'mssql';
 import { config } from '../config';
