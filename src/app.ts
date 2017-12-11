@@ -35,9 +35,6 @@ export class Server {
 
     // add routes
     this.routes();
-
-    // add api
-    this.api();
   }
 
   /**
@@ -49,16 +46,6 @@ export class Server {
    */
   static bootstrap (): Server {
     return new Server();
-  }
-
-  /**
-   * Create REST API routes
-   *
-   * @class Server
-   * @method api
-   */
-  public api () {
-    // empty for now
   }
 
   /**
