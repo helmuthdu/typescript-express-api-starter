@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as Loki from 'lokijs';
 import * as multer from 'multer';
 import * as path from 'path';
-import { fileFilter, loadCollection, logger } from '../../services';
+import { fileFilter, loadLocalDB, logger } from '../../services';
 import { BaseRoute } from '../route';
 
 const DB_NAME = 'db.json';
@@ -62,7 +62,7 @@ export class UploadRoute extends BaseRoute {
    */
   private async getFile (req: Request, res: Response, next: NextFunction) {
     try {
-      const col = await loadCollection(COLLECTION_NAME, db);
+      const col = await loadLocalDB(COLLECTION_NAME, db);
       const result = col.get(req.params.id);
 
       if (!result) {
@@ -87,7 +87,7 @@ export class UploadRoute extends BaseRoute {
    */
   private async getFiles (req: Request, res: Response, next: NextFunction) {
     try {
-      const col = await loadCollection(COLLECTION_NAME, db);
+      const col = await loadLocalDB(COLLECTION_NAME, db);
       res.send(col.data);
     } catch (err) {
       logger.error(err);
@@ -104,7 +104,7 @@ export class UploadRoute extends BaseRoute {
    */
   private async addFile (req: Request, res: Response, next: NextFunction) {
     try {
-      const col = await loadCollection(COLLECTION_NAME, db);
+      const col = await loadLocalDB(COLLECTION_NAME, db);
       const data = col.insert(req.file);
 
       db.saveDatabase();
@@ -124,7 +124,7 @@ export class UploadRoute extends BaseRoute {
    */
   private async addFiles (req: Request, res: Response, next: NextFunction) {
     try {
-      const col = await loadCollection(COLLECTION_NAME, db);
+      const col = await loadLocalDB(COLLECTION_NAME, db);
       const data = [].concat(col.insert(req.files));
 
       db.saveDatabase();

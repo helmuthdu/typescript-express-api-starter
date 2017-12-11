@@ -6,10 +6,8 @@ const PATHS = {
   LOG_INFO: `${process.cwd()}/logs/_info.log`,
   LOG_ERROR: `${process.cwd()}/logs/_error.log`
 };
-
 // ensure log directory exists
-const checkDir = () => fs.existsSync(PATHS.LOG) || fs.mkdirSync(PATHS.LOG);
-checkDir();
+(() => fs.existsSync(PATHS.LOG) || fs.mkdirSync(PATHS.LOG))();
 
 export const logger = new (winston.Logger)({
   transports: [

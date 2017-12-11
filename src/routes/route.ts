@@ -20,9 +20,6 @@ export abstract class BaseRoute {
   protected router = Router();
   protected connection: any = {};
 
-  constructor () {
-  }
-
   async connect (name: string): Promise<ConnectionPool> {
     if (!this.connection[name]) {
       this.connection[name] = new ConnectionPool(sqlConfig(name));
