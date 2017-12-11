@@ -2,6 +2,7 @@ import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as cors from 'cors';
 import * as express from 'express';
+import * as expressStatusMonitor from 'express-status-monitor';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 import * as path from 'path';
@@ -79,6 +80,7 @@ export class Server {
     this.app.use(cors());
     this.app.use(compression());
     this.app.use(methodOverride());
+    this.app.use(expressStatusMonitor());
 
     // catch 404 and forward to error handler
     this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

@@ -28,6 +28,7 @@
     "errorhandler": "^1.5.0",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "express-status-monitor": "^1.0.1",
     "helmet": "^3.9.0",
     "lodash": "^4.17.4",
     "lokijs": "^1.5.1",
