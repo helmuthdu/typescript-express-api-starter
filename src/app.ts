@@ -21,17 +21,6 @@ export class Server {
   public app: express.Application;
 
   /**
-   * Bootstrap the application.
-   *
-   * @class Server
-   * @method bootstrap
-   * @static
-   */
-  static bootstrap (): Server {
-    return new Server();
-  }
-
-  /**
    * Constructor.
    *
    * @class Server
@@ -49,6 +38,17 @@ export class Server {
 
     // add api
     this.api();
+  }
+
+  /**
+   * Bootstrap the application.
+   *
+   * @class Server
+   * @method bootstrap
+   * @static
+   */
+  static bootstrap (): Server {
+    return new Server();
   }
 
   /**

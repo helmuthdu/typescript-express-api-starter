@@ -10,40 +10,40 @@ import { config } from '../config';
 const sqlConfig = (name: string): any => config.db[name];
 
 export abstract class BaseRoute {
-    /**
-     * Constructor
-     *
-     * @class BaseRoute
-     * @constructor
-     */
+  /**
+   * Constructor
+   *
+   * @class BaseRoute
+   * @constructor
+   */
 
-    protected router = Router();
-    protected connection: any = {};
+  protected router = Router();
+  protected connection: any = {};
 
-    constructor () {
+  constructor () {
+  }
+
+  async connect (name: string): Promise<ConnectionPool> {
+    if (!this.connection[name]) {
+      this.connection[name] = new ConnectionPool(sqlConfig(name));
     }
 
-    async connect(name: string): Promise<ConnectionPool> {
-        if (!this.connection[name]) {
-            this.connection[name] = new ConnectionPool(sqlConfig(name));
-        }
-
-        // not yet connected, start the connection.
-        if (!this.connection[name].connected && !this.connection[name].connecting) {
-            await this.connection[name].connect();
-        }
-
-        return this.connection[name];
+    // not yet connected, start the connection.
+    if (!this.connection[name].connected && !this.connection[name].connecting) {
+      await this.connection[name].connect();
     }
 
-    async disconnect(name: string): Promise<boolean> {
-        try {
-            await this.connection[name].close();
-            return true;
+    return this.connection[name];
+  }
 
-        } catch (e) {
-            console.error('Error while disconnecting from database:', e);
-            return false;
-        }
+  async disconnect (name: string): Promise<boolean> {
+    try {
+      await this.connection[name].close();
+      return true;
+
+    } catch (e) {
+      console.error('Error while disconnecting from database:', e);
+      return false;
     }
+  }
 }
