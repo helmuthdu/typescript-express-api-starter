@@ -1,15 +1,15 @@
-export interface DatabaseConfig {
-  user: string;
-  password: string;
-  server: string;
+export interface IDatabaseConfig {
   database: string;
+  password: string;
   requestTimeout: number;
+  server: string;
+  user: string;
 }
 
-export interface Config {
+export interface IConfig {
+  db: IDatabaseConfig;
+  env: string;
   name: string;
   port: number;
-  env: string;
   version?: string;
-  db: DatabaseConfig;
 }

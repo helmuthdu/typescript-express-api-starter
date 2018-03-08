@@ -8,7 +8,7 @@ export const fileFilter = (req, file, cb) => {
   cb(undefined, true);
 };
 
-export const cleanFolder = folderPath => {
+export const cleanFolder = (folderPath: string) => {
   // delete files inside folder but not the folder itself
   del.sync([`${folderPath}/**`, `!${folderPath}`]);
 };

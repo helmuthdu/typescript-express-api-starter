@@ -3,70 +3,61 @@ const path = require('path');
 const env = process.env.NODE_ENV || 'development';
 const isProd = env === 'production';
 const fs = require('fs');
-const {
-    CheckerPlugin
-} = require('awesome-typescript-loader');
 
 const externals = {};
 fs.readdirSync('node_modules')
-    .filter(x => ['.bin'].indexOf(x) === -1)
-    .forEach((mod) => {
-        externals[mod] = `commonjs ${mod}`;
-    });
+  .filter(x => ['.bin'].indexOf(x) === -1)
+  .forEach((mod) => {
+    externals[mod] = `commonjs ${mod}`;
+  });
 
 const config = {
-    externals,
-    devtool: isProd ? 'hidden-source-map' : 'cheap-eval-source-map',
-    context: path.resolve('./src'),
-    target: 'node',
-    entry: {
-        index: './index.ts',
-    },
-    output: {
-        path: path.resolve('./dist'),
-        filename: '[name].js',
-        sourceMapFilename: '[name].map'
-    },
-    module: {
-        rules: [{
-            enforce: 'pre',
-            test: /\.ts$/,
-            exclude: ["node_modules"],
-            loader: 'awesome-typescript-loader'
-        }, ]
-    },
-    resolve: {
-        extensions: [".ts", ".js"],
-        modules: [path.resolve('./src'), 'node_modules']
-    },
-    plugins: [
-        new webpack.DefinePlugin({
-            'process.env': { // eslint-disable-line quote-props
-                NODE_ENV: JSON.stringify(env)
-            }
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            output: {
-                comments: false
-            },
-            sourceMap: false
-        }),
-        new webpack.LoaderOptionsPlugin({
-            options: {
-                tslint: {
-                    emitErrors: true,
-                    failOnHint: true
-                }
-            }
-        })
-    ]
+  externals,
+  devtool: isProd ? 'hidden-source-map' : 'cheap-eval-source-map',
+  context: path.resolve('./src'),
+  target: 'node',
+  entry: {
+    index: './index.ts',
+  },
+  output: {
+    path: path.resolve('./dist'),
+    filename: '[name].js',
+    sourceMapFilename: '[name].map'
+  },
+  module: {
+    rules: [{
+      test: /\.ts$/,
+      loader: 'ts-loader'
+    }]
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
+    modules: [path.resolve('./src'), 'node_modules']
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': { // eslint-disable-line quote-props
+        NODE_ENV: JSON.stringify(env)
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      output: {
+        comments: false
+      },
+      sourceMap: false
+    }),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        tslint: {
+          emitErrors: true,
+          failOnHint: true
+        }
+      }
+    })
+  ]
 };
-
-if (!isProd) {
-    config.plugins.push(new CheckerPlugin());
-}
 
 module.exports = config;

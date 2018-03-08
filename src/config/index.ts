@@ -1,17 +1,17 @@
-import { Config } from '../models';
+import { IConfig } from '../models';
 
 const env = process.env.NODE_ENV || 'development';
 const isProd = env === 'production';
 
-export const config: Config = {
+export const config: IConfig = {
+  db: {
+    database: '<database_name>',
+    password: isProd ? '<password>' : '<password>',
+    requestTimeout: 60000,
+    server: isProd ? '<host_name>' : '<host_name>',
+    user: '<user_name>',
+  },
+  env: isProd ? 'prod' : 'dev',
   name: 'api',
   port: isProd ? 3001 : 5000,
-  env: isProd ? 'prod' : 'dev',
-  db: {
-    user: '<user_name>',
-    password: isProd ? '<password>' : '<password>',
-    server: isProd ? '<host_name>' : '<host_name>',
-    database: '<database_name>',
-    requestTimeout: 60000
-  }
 };

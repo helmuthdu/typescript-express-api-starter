@@ -10,7 +10,7 @@ import { UploadRoute } from './upload';
  * @class User
  */
 export class ApiRoutes extends BaseRoute {
-  static path = '/api';
+  public static path = '/api';
   private static instance: ApiRoutes;
 
   /**

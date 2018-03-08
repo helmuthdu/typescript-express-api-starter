@@ -10,7 +10,7 @@ import { BaseRoute } from '../route';
  * @apiSuccess {String} type Json Type.
  */
 export class PingRoute extends BaseRoute {
-  static path = '/ping';
+  public static path = '/ping';
   private static instance: PingRoute;
 
   /**

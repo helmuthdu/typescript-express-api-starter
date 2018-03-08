@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { ConnectionPool } from 'mssql';
 import { config } from '../config';
+import { logger } from '../services';
 
 const sqlConfig = (name: string): any => config.db[name];
 
@@ -15,7 +16,7 @@ export abstract class BaseRoute {
   protected router = Router();
   protected connection: any = {};
 
-  async connect (name: string): Promise<ConnectionPool> {
+  public async connect (name: string): Promise<ConnectionPool> {
     if (!this.connection[name]) {
       this.connection[name] = new ConnectionPool(sqlConfig(name));
     }
@@ -28,13 +29,13 @@ export abstract class BaseRoute {
     return this.connection[name];
   }
 
-  async disconnect (name: string): Promise<boolean> {
+  public async disconnect (name: string): Promise<boolean> {
     try {
       await this.connection[name].close();
       return true;
 
-    } catch (e) {
-      console.error('Error while disconnecting from database:', e);
+    } catch (err) {
+      logger.error('Error while disconnecting from database:', err);
       return false;
     }
   }

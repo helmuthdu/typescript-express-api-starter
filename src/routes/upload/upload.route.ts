@@ -20,7 +20,7 @@ const db = new Loki(`${UPLOAD_PATH}/${DB_NAME}`, { persistenceMethod: 'fs' });
  * @apiSuccess {String} type Json Type.
  */
 export class UploadRoute extends BaseRoute {
-  static path = '/upload';
+  public static path = '/upload';
   private static instance: UploadRoute;
 
   /**
@@ -128,7 +128,7 @@ export class UploadRoute extends BaseRoute {
       const data = [].concat(col.insert(req.files));
 
       db.saveDatabase();
-      res.send(data.map(x => ({ id: x.$loki, fileName: x.filename, originalName: x.originalname })));
+      res.send(data.map((x: any) => ({ id: x.$loki, fileName: x.filename, originalName: x.originalname })));
     } catch (err) {
       logger.error(err);
       res.sendStatus(400);

@@ -1,17 +1,16 @@
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as cors from 'cors';
+import * as errorHandler from 'errorhandler';
 import * as express from 'express';
 import * as expressStatusMonitor from 'express-status-monitor';
 import * as helmet from 'helmet';
+import * as methodOverride from 'method-override';
 import * as morgan from 'morgan';
 import * as path from 'path';
 
 import { ApiRoutes } from './routes';
 import { logger } from './services';
-
-const errorHandler = require('errorhandler');
-const methodOverride = require('method-override');
 
 /**
  * The server.
@@ -19,6 +18,16 @@ const methodOverride = require('method-override');
  * @class Server
  */
 export class Server {
+  /**
+   * Bootstrap the application.
+   *
+   * @class Server
+   * @method bootstrap
+   * @static
+   */
+  public static bootstrap (): Server {
+    return new Server();
+  }
 
   public app: express.Application;
 
@@ -40,17 +49,6 @@ export class Server {
   }
 
   /**
-   * Bootstrap the application.
-   *
-   * @class Server
-   * @method bootstrap
-   * @static
-   */
-  static bootstrap (): Server {
-    return new Server();
-  }
-
-  /**
    * Configure application
    *
    * @class Server
@@ -63,8 +61,8 @@ export class Server {
     // mount logger
     this.app.use(morgan('tiny', {
       stream: {
-        write: message => logger.info(message.trim())
-      }
+        write: (message: string) => logger.info(message.trim()),
+      },
     } as morgan.Options));
 
     // mount json form parser
@@ -72,7 +70,7 @@ export class Server {
 
     // mount query string parser
     this.app.use(bodyParser.urlencoded({
-      extended: true
+      extended: true,
     }));
 
     // mount override?
