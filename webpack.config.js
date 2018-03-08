@@ -1,4 +1,4 @@
-const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const env = process.env.NODE_ENV || 'development';
 const isProd = env === 'production';
@@ -16,8 +16,9 @@ const config = {
   devtool: isProd ? 'hidden-source-map' : 'cheap-eval-source-map',
   context: path.resolve('./src'),
   target: 'node',
+  mode: env,
   entry: {
-    index: './index.ts',
+    index: './index.ts'
   },
   output: {
     path: path.resolve('./dist'),
@@ -26,38 +27,30 @@ const config = {
   },
   module: {
     rules: [{
-      test: /\.ts$/,
-      loader: 'ts-loader'
+      test: /\.tsx?$/,
+      use: 'ts-loader',
+      exclude: /node_modules/
     }]
   },
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: ['.ts', '.js'],
     modules: [path.resolve('./src'), 'node_modules']
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': { // eslint-disable-line quote-props
-        NODE_ENV: JSON.stringify(env)
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      output: {
-        comments: false
-      },
-      sourceMap: false
-    }),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        tslint: {
-          emitErrors: true,
-          failOnHint: true
-        }
-      }
-    })
-  ]
+  optimization: {
+    minimizer: [
+      // we specify a custom UglifyJsPlugin here to get source maps in production
+      new UglifyJSPlugin({
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          compress: false,
+          ecma: 6,
+          mangle: true
+        },
+        sourceMap: true
+      })
+    ]
+  }
 };
 
 module.exports = config;
