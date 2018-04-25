@@ -18,23 +18,26 @@ const config = {
   target: 'node',
   mode: env,
   entry: {
-    index: './index.ts'
+    index: './index.ts',
   },
   output: {
     path: path.resolve('./dist'),
     filename: '[name].js',
-    sourceMapFilename: '[name].map'
+    sourceMapFilename: '[name].map',
   },
   module: {
     rules: [{
       test: /\.tsx?$/,
       use: 'ts-loader',
-      exclude: /node_modules/
-    }]
+      exclude: /node_modules/,
+    }],
   },
   resolve: {
     extensions: ['.ts', '.js'],
-    modules: [path.resolve('./src'), 'node_modules']
+    modules: [path.resolve('./src'), 'node_modules'],
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
   },
   optimization: {
     minimizer: [
@@ -45,12 +48,12 @@ const config = {
         uglifyOptions: {
           compress: false,
           ecma: 6,
-          mangle: true
+          mangle: true,
         },
-        sourceMap: true
-      })
-    ]
-  }
+        sourceMap: true,
+      }),
+    ],
+  },
 };
 
 module.exports = config;
