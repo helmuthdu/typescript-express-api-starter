@@ -1,5 +1,5 @@
+import { logger } from '@/services';
 import { NextFunction, Request, Response } from 'express';
-import { logger } from '../services';
 import { PingRoute } from './ping';
 import { BaseRoute } from './route';
 import { UploadRoute } from './upload';

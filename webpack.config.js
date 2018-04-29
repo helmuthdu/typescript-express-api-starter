@@ -1,7 +1,8 @@
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const NodemonPlugin = require( 'nodemon-webpack-plugin' );
+const merge = require('webpack-merge');
 const path = require('path');
 const env = process.env.NODE_ENV || 'development';
-const isProd = env === 'production';
 const fs = require('fs');
 
 const externals = {};
@@ -11,9 +12,8 @@ fs.readdirSync('node_modules')
     externals[mod] = `commonjs ${mod}`;
   });
 
-const config = {
+const baseConfig = {
   externals,
-  devtool: isProd ? 'hidden-source-map' : 'cheap-eval-source-map',
   context: path.resolve('./src'),
   target: 'node',
   mode: env,
@@ -39,6 +39,18 @@ const config = {
       '@': path.resolve(__dirname, './src'),
     },
   },
+};
+
+const developmentConfig = {
+  devtool: 'cheap-eval-source-map',
+  plugins: [
+    new NodemonPlugin(),
+  ],
+};
+
+const productionConfig = {
+  devtool: 'hidden-source-map',
+  plugins: [],
   optimization: {
     minimizer: [
       // we specify a custom UglifyJsPlugin here to get source maps in production
@@ -56,4 +68,4 @@ const config = {
   },
 };
 
-module.exports = config;
+module.exports = merge(baseConfig, env === 'development' ? developmentConfig : productionConfig);

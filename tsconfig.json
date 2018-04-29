@@ -21,6 +21,9 @@
     "node_modules",
     "dist"
   ],
+  "include": [
+    "src/**/*.ts"
+  ],
   "files": [
     "src/index.ts"
   ]

@@ -1,3 +1,4 @@
+import * as debug from 'debug';
 import * as fs from 'fs';
 import * as winston from 'winston';
 
@@ -9,6 +10,7 @@ const PATHS = {
 // ensure log directory exists
 (() => fs.existsSync(PATHS.LOG) || fs.mkdirSync(PATHS.LOG))();
 
+export const dbg = debug('express:server');
 export const logger = new (winston.Logger)({
   exitOnError: false,
   transports: [
