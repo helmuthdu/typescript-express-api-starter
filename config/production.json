@@ -5,7 +5,5 @@
     "requestTimeout": 60000,
     "server": "<host_name>",
     "user": "<user_name>"
-  },
-  "name": "api",
-  "port": 3000
+  }
 }

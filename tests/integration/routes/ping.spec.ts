@@ -1,9 +1,13 @@
+import { app, server } from '@/index';
 import * as supertest from 'supertest';
-import { server } from '../../index';
 
 describe('ping route', () => {
-  test('should return pong', (done) => {
-    supertest(server)
+  afterAll(() => {
+    server.close();
+  });
+
+  it('should return pong', (done) => {
+    supertest(app)
       .get('/api/ping')
       .end((err: any, res: supertest.Response) => {
         if (err) {

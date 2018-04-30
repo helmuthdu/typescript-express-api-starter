@@ -97,7 +97,7 @@
       "^.+\\.(ts)$": "./node_modules/ts-jest/preprocessor.js"
     },
     "testMatch": [
-      "**/src/**/*.spec.(ts|js)"
+      "<rootDir>/tests/**/*.spec.(ts|js)"
     ],
     "testEnvironment": "node"
   }

@@ -1,30 +1,27 @@
-module.exports = function (w) {
+module.exports = (webpack) => ({
+  files: [
+    { pattern: './src/**/*.ts', load: false },
+  ],
 
-    return {
-        files: [
-            'src/**/*.ts'
-        ],
+  tests: [
+    './tests/**/*.spec.ts',
+  ],
 
-        tests: [
-            'test/**/*Spec.ts'
-        ],
+  env: {
+    type: 'node',
+  },
 
-        env: {
-            type: 'node'
-        },
+  compilers: {
+    '**/*.ts': webpack.compilers.typeScript({ useStandardDefaults: true }),
+  },
 
-        compilers: {
-            '**/*.ts': w.compilers.typeScript({ module: 'commonjs' })
-        },
+  setup (wallaby) {
+    const jestConfig = require('./package').jest || require('./jest.config');
+    delete jestConfig.transform['^.+\\.tsx?$'];
+    wallaby.testFramework.configure(jestConfig);
+  },
 
-        setup (wallaby) {
-            const jestConfig = require('./package').jest || require('./jest.config');
-            delete jestConfig.transform['^.+\\.tsx?$'];
-            wallaby.testFramework.configure(jestConfig);
-        },
+  testFramework: 'jest',
 
-        testFramework: 'jest',
-
-        debug: true
-    };
-};
+  debug: true,
+});
