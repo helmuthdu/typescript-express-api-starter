@@ -2,8 +2,8 @@ import { app, server } from '@/index';
 import * as supertest from 'supertest';
 
 describe('ping route', () => {
-  afterAll(() => {
-    server.close();
+  afterEach(async () => {
+    await server.close();
   });
 
   it('should return pong', (done) => {

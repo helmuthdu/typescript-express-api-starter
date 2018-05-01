@@ -1,14 +1,11 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
+    "target": "esnext",
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
     "allowJs": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "lib": ["dom", "es6"],
     "baseUrl": "./src",
     "paths": {
@@ -22,7 +19,8 @@
     "dist"
   ],
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "tests/**/*.spec.ts"
   ],
   "files": [
     "src/index.ts"
