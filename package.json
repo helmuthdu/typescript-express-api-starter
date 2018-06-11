@@ -18,7 +18,7 @@
   "author": "Helmuth Saatkamp",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.18.3",
     "compression": "^1.7.2",
     "config": "^1.30.0",
     "cookie-parser": "^1.4.3",
@@ -29,20 +29,20 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "express-status-monitor": "^1.0.1",
-    "helmet": "^3.12.0",
-    "joi": "^13.2.0",
+    "helmet": "^3.12.1",
+    "joi": "^13.4.0",
     "lodash": "^4.17.10",
-    "lokijs": "^1.5.3",
+    "lokijs": "^1.5.5",
     "method-override": "^2.3.10",
-    "mongoose": "^5.0.16",
+    "mongoose": "^5.1.4",
     "morgan": "^1.9.0",
     "multer": "^1.3.0",
-    "rxjs": "^6.0.0",
+    "rxjs": "^6.2.0",
     "wicket": "^1.3.3",
     "winston": "^2.4.2"
   },
   "devDependencies": {
-    "@reactivex/rxjs": "^6.0.0",
+    "@reactivex/rxjs": "^6.2.0",
     "@types/body-parser": "1.17.0",
     "@types/compression": "^0.0.36",
     "@types/config": "^0.0.34",
@@ -50,51 +50,46 @@
     "@types/debug": "^0.0.30",
     "@types/del": "^3.0.1",
     "@types/errorhandler": "^0.0.32",
-    "@types/express": "^4.11.1",
-    "@types/express-session": "^1.15.8",
-    "@types/helmet": "^0.0.37",
-    "@types/jest": "^22.2.3",
-    "@types/lodash": "^4.14.108",
+    "@types/express": "^4.16.0",
+    "@types/express-session": "^1.15.10",
+    "@types/helmet": "^0.0.38",
+    "@types/jest": "^23.0.0",
+    "@types/lodash": "^4.14.109",
     "@types/lokijs": "^1.5.2",
     "@types/method-override": "^0.0.31",
     "@types/morgan": "^1.7.35",
     "@types/multer": "^1.3.6",
-    "@types/node": "^8.10.10",
+    "@types/node": "^10.3.2",
     "@types/supertest": "^2.0.4",
-    "@types/webpack": "^4.1.4",
+    "@types/webpack": "^4.4.0",
     "@types/winston": "^2.3.9",
-    "cross-env": "^5.1.4",
-    "jest": "^22.4.3",
-    "nodemon": "^1.17.3",
+    "cross-env": "^5.1.6",
+    "jest": "^23.1.0",
+    "nodemon": "^1.17.5",
     "nodemon-webpack-plugin": "^4.0.3",
-    "shelljs": "^0.8.1",
-    "supertest": "^3.0.0",
-    "ts-jest": "^22.4.4",
-    "ts-loader": "^4.2.0",
-    "ts-node": "^6.0.2",
-    "tslint": "^5.9.1",
-    "tslint-config-standard": "^7.0.0",
-    "typescript": "^2.8.3",
+    "shelljs": "^0.8.2",
+    "supertest": "^3.1.0",
+    "ts-jest": "^22.4.6",
+    "ts-loader": "^4.4.1",
+    "ts-node": "^6.1.0",
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.1",
     "uglifyjs-webpack-plugin": "^1.2.5",
-    "webpack": "^4.6.0",
-    "webpack-cli": "^2.0.15",
+    "webpack": "^4.12.0",
+    "webpack-cli": "^3.0.3",
     "webpack-merge": "^4.1.2"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsConfigFile": "tsconfig.json"
-      }
-    },
     "moduleFileExtensions": [
       "ts",
-      "js"
+      "js",
+      "json"
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
     },
     "transform": {
-      "^.+\\.(ts)$": "./node_modules/ts-jest/preprocessor.js"
+      "^.+\\.(ts|js)x?$": "ts-jest"
     },
     "testMatch": [
       "<rootDir>/tests/**/*.spec.(ts|js)"
