@@ -11,35 +11,31 @@ const PATHS = {
 (() => fs.existsSync(PATHS.LOG) || fs.mkdirSync(PATHS.LOG))();
 
 export const dbg = debug('express:server');
-export const logger = new (winston.Logger)({
+
+export const logger = winston.createLogger({
   exitOnError: false,
+  format: winston.format.combine(
+    winston.format.splat(),
+    winston.format.simple(),
+  ),
   transports: [
     new winston.transports.File({
-      colorize: false,
       filename: PATHS.LOG_INFO,
       handleExceptions: true,
-      json: true,
       level: 'info',
       maxFiles: 2,
       maxsize: 5242880, // 5MB
-      name: 'info',
     }),
-    new (winston.transports.File)({
-      colorize: false,
+    new winston.transports.File({
       filename: PATHS.LOG_ERROR,
       handleExceptions: true,
-      json: true,
       level: 'error',
       maxFiles: 2,
       maxsize: 5242880, // 5MB
-      name: 'error',
     }),
     new winston.transports.Console({
-      colorize: true,
       handleExceptions: true,
-      json: false,
       level: 'debug',
-      name: 'debug',
     }),
   ],
 });
