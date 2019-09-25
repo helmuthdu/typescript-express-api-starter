@@ -1,5 +1,4 @@
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const NodemonPlugin = require( 'nodemon-webpack-plugin' );
+const NodemonPlugin = require('nodemon-webpack-plugin');
 const merge = require('webpack-merge');
 const path = require('path');
 const env = process.env.NODE_ENV || 'development';
@@ -8,7 +7,7 @@ const fs = require('fs');
 const externals = {};
 fs.readdirSync('node_modules')
   .filter(x => ['.bin'].indexOf(x) === -1)
-  .forEach((mod) => {
+  .forEach(mod => {
     externals[mod] = `commonjs ${mod}`;
   });
 
@@ -26,11 +25,13 @@ const baseConfig = {
     sourceMapFilename: '[name].map',
   },
   module: {
-    rules: [{
-      test: /\.tsx?$/,
-      use: 'ts-loader',
-      exclude: /node_modules/,
-    }],
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
   },
   resolve: {
     extensions: ['.ts', '.js'],
@@ -43,29 +44,11 @@ const baseConfig = {
 
 const developmentConfig = {
   devtool: 'cheap-eval-source-map',
-  plugins: [
-    new NodemonPlugin(),
-  ],
+  plugins: [new NodemonPlugin()],
 };
 
 const productionConfig = {
-  devtool: 'hidden-source-map',
   plugins: [],
-  optimization: {
-    minimizer: [
-      // we specify a custom UglifyJsPlugin here to get source maps in production
-      new UglifyJSPlugin({
-        cache: true,
-        parallel: true,
-        uglifyOptions: {
-          compress: false,
-          ecma: 6,
-          mangle: true,
-        },
-        sourceMap: true,
-      }),
-    ],
-  },
 };
 
 module.exports = merge(baseConfig, env === 'development' ? developmentConfig : productionConfig);

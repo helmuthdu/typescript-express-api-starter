@@ -1,10 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import * as fs from 'fs';
 import * as Loki from 'lokijs';
 import * as multer from 'multer';
 import * as path from 'path';
 import { fileFilter, loadLocalDB, logger } from '../../services';
-import { BaseRoute } from '../route';
 
 const DB_NAME = 'db.json';
 const COLLECTION_NAME = 'files';
@@ -19,31 +18,16 @@ const db = new Loki(`${UPLOAD_PATH}/${DB_NAME}`, { persistenceMethod: 'fs' });
  *
  * @apiSuccess {String} type Json Type.
  */
-export class UploadRoute extends BaseRoute {
+export class UploadRoute {
   public static path = '/upload';
   private static instance: UploadRoute;
+  private router = Router();
 
   /**
    * @class UploadRoute
    * @constructor
    */
-  private constructor () {
-    super();
-    this.getFile = this.getFile.bind(this);
-    this.getFiles = this.getFiles.bind(this);
-    this.addFile = this.addFile.bind(this);
-    this.addFiles = this.addFiles.bind(this);
-    this.init();
-  }
-
-  static get router () {
-    if (!UploadRoute.instance) {
-      UploadRoute.instance = new UploadRoute();
-    }
-    return UploadRoute.instance.router;
-  }
-
-  private init () {
+  private constructor() {
     // log
     logger.info('[UploadRoute] Creating Upload route.');
 
@@ -53,6 +37,13 @@ export class UploadRoute extends BaseRoute {
     this.router.post('/files', upload.array(''), this.addFiles);
   }
 
+  static get router() {
+    if (!UploadRoute.instance) {
+      UploadRoute.instance = new UploadRoute();
+    }
+    return UploadRoute.instance.router;
+  }
+
   /**
    * @class UploadRoute
    * @method getFile
@@ -60,10 +51,12 @@ export class UploadRoute extends BaseRoute {
    * @param res {Response} The express Response object.
    * @param next {NextFunction} Execute the next method.
    */
-  private async getFile (req: Request, res: Response, next: NextFunction) {
+  private getFile = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const col = await loadLocalDB(COLLECTION_NAME, db);
-      const result = col.get(req.params.id);
+      const id: any = req.params.id;
+
+      const result = col.get(id);
 
       if (!result) {
         res.sendStatus(404);
@@ -76,7 +69,7 @@ export class UploadRoute extends BaseRoute {
       logger.error(err);
       res.sendStatus(400);
     }
-  }
+  };
 
   /**
    * @class UploadRoute
@@ -85,7 +78,7 @@ export class UploadRoute extends BaseRoute {
    * @param res {Response} The express Response object.
    * @param next {NextFunction} Execute the next method.
    */
-  private async getFiles (req: Request, res: Response, next: NextFunction) {
+  private getFiles = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const col = await loadLocalDB(COLLECTION_NAME, db);
       res.send(col.data);
@@ -93,7 +86,7 @@ export class UploadRoute extends BaseRoute {
       logger.error(err);
       res.sendStatus(400);
     }
-  }
+  };
 
   /**
    * @class UploadRoute
@@ -102,18 +95,22 @@ export class UploadRoute extends BaseRoute {
    * @param res {Response} The express Response object.
    * @param next {NextFunction} Execute the next method.
    */
-  private async addFile (req: Request, res: Response, next: NextFunction) {
+  private addFile = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const col = await loadLocalDB(COLLECTION_NAME, db);
       const data = col.insert(req.file);
 
       db.saveDatabase();
-      res.send({ id: data.$loki, fileName: data.filename, originalName: data.originalname });
+      res.send({
+        fileName: data.filename,
+        id: data.$loki,
+        originalName: data.originalname,
+      });
     } catch (err) {
       logger.error(err);
       res.sendStatus(400);
     }
-  }
+  };
 
   /**
    * @class UploadRoute
@@ -122,16 +119,22 @@ export class UploadRoute extends BaseRoute {
    * @param res {Response} The express Response object.
    * @param next {NextFunction} Execute the next method.
    */
-  private async addFiles (req: Request, res: Response, next: NextFunction) {
+  private addFiles = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const col = await loadLocalDB(COLLECTION_NAME, db);
       const data = [].concat(col.insert(req.files));
 
       db.saveDatabase();
-      res.send(data.map((x: any) => ({ id: x.$loki, fileName: x.filename, originalName: x.originalname })));
+      res.send(
+        data.map((x: any) => ({
+          fileName: x.filename,
+          id: x.$loki,
+          originalName: x.originalname,
+        })),
+      );
     } catch (err) {
       logger.error(err);
       res.sendStatus(400);
     }
-  }
+  };
 }

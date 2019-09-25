@@ -1,6 +1,5 @@
 import { logger } from '@/services';
-import { NextFunction, Request, Response } from 'express';
-import { BaseRoute } from '../route';
+import { NextFunction, Request, Response, Router } from 'express';
 
 /**
  * @api {get} /ping Ping Request customer object
@@ -9,33 +8,28 @@ import { BaseRoute } from '../route';
  *
  * @apiSuccess {String} type Json Type.
  */
-export class PingRoute extends BaseRoute {
+export class PingRoute {
   public static path = '/ping';
   private static instance: PingRoute;
+  private router = Router();
 
   /**
    * @class PingRoute
    * @constructor
    */
-  private constructor () {
-    super();
-    this.get = this.get.bind(this);
-    this.init();
-  }
-
-  static get router () {
-    if (!PingRoute.instance) {
-      PingRoute.instance = new PingRoute();
-    }
-    return PingRoute.instance.router;
-  }
-
-  private init () {
+  private constructor() {
     // log
     logger.info('[PingRoute] Creating ping route.');
 
     // add index page route
     this.router.get('/', this.get);
+  }
+
+  static get router() {
+    if (!PingRoute.instance) {
+      PingRoute.instance = new PingRoute();
+    }
+    return PingRoute.instance.router;
   }
 
   /**
@@ -45,8 +39,8 @@ export class PingRoute extends BaseRoute {
    * @param res {Response} The express Response object.
    * @param next {NextFunction} Execute the next method.
    */
-  private async get (req: Request, res: Response, next: NextFunction) {
+  private get = async (req: Request, res: Response, next: NextFunction) => {
     res.json('pong');
     next();
-  }
+  };
 }

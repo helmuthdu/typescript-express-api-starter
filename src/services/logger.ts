@@ -14,10 +14,7 @@ export const dbg = debug('express:server');
 
 export const logger = winston.createLogger({
   exitOnError: false,
-  format: winston.format.combine(
-    winston.format.splat(),
-    winston.format.simple(),
-  ),
+  format: winston.format.combine(winston.format.splat(), winston.format.simple()),
   transports: [
     new winston.transports.File({
       filename: PATHS.LOG_INFO,

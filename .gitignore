@@ -12,16 +12,21 @@ public/
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 node_modules/
 
-# Optional npm cache directory
-.npm
+# OS
+.DS_Store
 
-# Optional REPL history
-.node_repl_history
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 
-*.tap
-checkstyle-result.xml
-
-.idea
-.vs
-.vscode
-package-lock.json
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

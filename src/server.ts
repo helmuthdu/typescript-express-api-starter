@@ -25,7 +25,7 @@ export class Server {
    * @method bootstrap
    * @static
    */
-  public static bootstrap (): Server {
+  public static bootstrap(): Server {
     return new Server();
   }
 
@@ -37,7 +37,7 @@ export class Server {
    * @class Server
    * @constructor
    */
-  constructor () {
+  constructor() {
     // create expressjs application
     this.app = express();
 
@@ -54,24 +54,28 @@ export class Server {
    * @class Server
    * @method config
    */
-  public config () {
+  public config() {
     // add static paths
     this.app.use(express.static(path.join(__dirname, 'public')));
 
     // mount logger
-    this.app.use(morgan('tiny', {
-      stream: {
-        write: (message: string) => logger.info(message.trim()),
-      },
-    } as morgan.Options));
+    this.app.use(
+      morgan('tiny', {
+        stream: {
+          write: (message: string) => logger.info(message.trim()),
+        },
+      } as morgan.Options),
+    );
 
     // mount json form parser
     this.app.use(bodyParser.json({ limit: '50mb' }));
 
     // mount query string parser
-    this.app.use(bodyParser.urlencoded({
-      extended: true,
-    }));
+    this.app.use(
+      bodyParser.urlencoded({
+        extended: true,
+      }),
+    );
 
     // mount override?
     this.app.use(helmet());
@@ -97,7 +101,7 @@ export class Server {
    * @method routes
    * @return void
    */
-  private routes () {
+  private routes() {
     // use router middleware
     this.app.use(ApiRoutes.path, ApiRoutes.router);
   }
