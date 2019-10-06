@@ -12,31 +12,13 @@ import * as path from 'path';
 import { ApiRoutes } from './routes';
 import { logger } from './services';
 
-/**
- * The server.
- *
- * @class Server
- */
 export class Server {
-  /**
-   * Bootstrap the application.
-   *
-   * @class Server
-   * @method bootstrap
-   * @static
-   */
   public static bootstrap(): Server {
     return new Server();
   }
 
   public app: express.Application;
 
-  /**
-   * Constructor.
-   *
-   * @class Server
-   * @constructor
-   */
   constructor() {
     // create expressjs application
     this.app = express();
@@ -48,12 +30,6 @@ export class Server {
     this.routes();
   }
 
-  /**
-   * Configure application
-   *
-   * @class Server
-   * @method config
-   */
   public config() {
     // add static paths
     this.app.use(express.static(path.join(__dirname, 'public')));
@@ -94,13 +70,6 @@ export class Server {
     this.app.use(errorHandler());
   }
 
-  /**
-   * Create and return Router.
-   *
-   * @class Server
-   * @method routes
-   * @return void
-   */
   private routes() {
     // use router middleware
     this.app.use(ApiRoutes.path, ApiRoutes.router);

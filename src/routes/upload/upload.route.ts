@@ -11,24 +11,12 @@ const UPLOAD_PATH = 'public/uploads';
 const upload = multer({ dest: `${UPLOAD_PATH}/`, fileFilter });
 const db = new Loki(`${UPLOAD_PATH}/${DB_NAME}`, { persistenceMethod: 'fs' });
 
-/**
- * @api {get} /upload Upload request object
- * @apiName Upload
- * @apiGroup Upload
- *
- * @apiSuccess {String} type Json Type.
- */
 export class UploadRoute {
   public static path = '/upload';
   private static instance: UploadRoute;
   private router = Router();
 
-  /**
-   * @class UploadRoute
-   * @constructor
-   */
   private constructor() {
-    // log
     logger.info('[UploadRoute] Creating Upload route.');
 
     this.router.get('/file/:id', this.getFile);
@@ -44,13 +32,6 @@ export class UploadRoute {
     return UploadRoute.instance.router;
   }
 
-  /**
-   * @class UploadRoute
-   * @method getFile
-   * @param req {Request} The express Request object.
-   * @param res {Response} The express Response object.
-   * @param next {NextFunction} Execute the next method.
-   */
   private getFile = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const col = await loadLocalDB(COLLECTION_NAME, db);
@@ -71,13 +52,6 @@ export class UploadRoute {
     }
   };
 
-  /**
-   * @class UploadRoute
-   * @method getFiles
-   * @param req {Request} The express Request object.
-   * @param res {Response} The express Response object.
-   * @param next {NextFunction} Execute the next method.
-   */
   private getFiles = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const col = await loadLocalDB(COLLECTION_NAME, db);
@@ -88,13 +62,6 @@ export class UploadRoute {
     }
   };
 
-  /**
-   * @class UploadRoute
-   * @method addFile
-   * @param req {Request} The express Request object.
-   * @param res {Response} The express Response object.
-   * @param next {NextFunction} Execute the next method.
-   */
   private addFile = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const col = await loadLocalDB(COLLECTION_NAME, db);
@@ -112,13 +79,6 @@ export class UploadRoute {
     }
   };
 
-  /**
-   * @class UploadRoute
-   * @method addFiles
-   * @param req {Request} The express Request object.
-   * @param res {Response} The express Response object.
-   * @param next {NextFunction} Execute the next method.
-   */
   private addFiles = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const col = await loadLocalDB(COLLECTION_NAME, db);
